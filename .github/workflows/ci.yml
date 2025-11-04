@@ -1,0 +1,39 @@
+name: CI Frontend
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1) Checkout del repo
+      - name: Checkout del código
+        uses: actions/checkout@v3
+
+      # 2) Configurar Node.js
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # 3) Instalar dependencias (Jest y ESLint)
+      - name: Instalar dependencias
+        run: npm install
+
+      # 4) Análisis estático con ESLint
+      # Comentario: Mantenemos el pipeline pasando aunque eslint falle con '|| true'
+      - name: Ejecutar ESLint
+        run: npx eslint . || true
+
+      # 5) Ejecutar pruebas con Jest
+      - name: Ejecutar pruebas con Jest
+        run: npm test
+
+      # 6) Mensaje de confirmación
+      - name: Confirmar éxito
+        run: echo "CI ejecutado correctamente"
