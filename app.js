@@ -1,12 +1,19 @@
-export function cambiarTexto(nuevoTexto) {
-  const el = typeof document !== 'undefined' ? document.getElementById('title') : null;
-  if (el) el.textContent = nuevoTexto;
+export function cambiarTexto(nuevoTexto = "Texto cambiado correctamente") {
+  const texto = document.getElementById("texto");
+  if (texto) texto.textContent = nuevoTexto;
   return nuevoTexto;
 }
 
-// Si se ejecuta en navegador, agrega listener
-if (typeof window !== 'undefined') {
-  document.getElementById('btn').addEventListener('click', () => {
-    cambiarTexto('Cambiado por CI!');
+// Esperar a que el DOM esté listo
+if (typeof window !== "undefined") {
+  document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.getElementById("btn");
+    if (btn) {
+      btn.addEventListener("click", () => {
+        cambiarTexto("Cambiado por CI!");
+      });
+    } else {
+      console.warn("⚠️ No se encontró el botón con id='btn'");
+    }
   });
 }
